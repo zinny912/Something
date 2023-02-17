@@ -27,6 +27,9 @@ public class WritingService {
 	}
 	
 	public int setWritingInsert(WritingDTO writingDTO) throws Exception{
-		return writingDAO.set
+		
+		
+		
+		return writingDAO.setWritingInsert(writingDTO);
 	}
 }

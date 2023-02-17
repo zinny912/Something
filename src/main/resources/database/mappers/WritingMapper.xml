@@ -6,6 +6,25 @@
  <mapper namespace = "com.home.st1.writing.WritingDAO">
  	<select id="getWritingList" resultType="writingDTO">
  		SELECT * FROM WRITING
+ 		ORDER BY WRITINGID DESC
  	</select>
+ 	
+ 	<select id="getWritingDetail" parameterType="writingDTO" resultType="writingDTO">
+ 		SELECT * FROM WRITING WHERE WRITINGID = #{writingId}
+ 	</select>
+ 	
+ 	<insert id="setWritingInsert" parameterType="writingDTO">
+ 		INSERT INTO WRITING VALUES(WRITING_SEQ.NEXTVAL, #{id}, #{typeId}, #{writingTitle}, sysdate, 0, #{writingDetail})
+ 	</insert>
+ 	
+ 	<update id="setWritingUpdate" parameterType="writingDTO">
+ 		UPDATE WRITING
+		SET WRITINGTITLE = #{writingTitle}, WRITINGDETAIL = #{writingDetail}
+		WHERE WRITINGID = #{writingId}
+ 	</update>
+ 	
+ 	<delete id="setWritingDelete" parameterType="writingDTO">
+ 		DELETE WRITING WHERE WRITINGID = #{writingId}
+ 	</delete>
  	
  </mapper>

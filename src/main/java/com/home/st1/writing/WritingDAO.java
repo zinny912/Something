@@ -22,7 +22,7 @@ public class WritingDAO {
 	}
 	
 	public int setWritingUpdate(WritingDTO writingDTO) throws Exception{
-		return sqlSession.update(NAMESPACE + "setWritingDelete", writingDTO);
+		return sqlSession.update(NAMESPACE + "setWritingUpdate", writingDTO);
 	}
 	
 	public int setWritingDelete(WritingDTO writingDTO) throws Exception{

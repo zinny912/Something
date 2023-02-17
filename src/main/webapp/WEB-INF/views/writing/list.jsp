@@ -11,8 +11,10 @@
 	<h3>list page</h3>
 	
 	<c:forEach items="${list}" var="dto">
-		<h3>${dto.writingTitle}</h3>
+		<h3><a href="./detail?writingId=${dto.writingId}">${dto.writingId}</a></h3>
 	</c:forEach>
+	
+	<h1><a href="/writing/insert">삽입하기</a></h1>
 	
 </body>
 </html>

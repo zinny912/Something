@@ -13,7 +13,7 @@
 	<div class="container-fluid">
 		<div class="row col-md-10 my-3 mx-auto">
 			<div class="mb-3">
-				<h3 class="text-center">list page</h3>
+				<h3 class="text-center">notice list page</h3>
 			</div>
 			<div class="mb-3">
 				<table class="table table-hover">
@@ -39,33 +39,33 @@
 								<ul class="pagination">
 									<c:if test="${pagination.page != 1}">
 										<li class="page-item">
-											<a class="page-link" href="./list?page=1&kind=${pagination.kind}&search=${pagination.search}" aria-label="Previous">
+											<a class="page-link" href="./noticeList?page=1&kind=${pagination.kind}&search=${pagination.search}" aria-label="Previous">
 												<span aria-hidden="true">&laquo;</span>
 						      				</a>
 						    			</li>
 						    		</c:if>
 						    		<c:if test="${pagination.page != 1}">
 						    			<li class="page-item">
-						      				<a class="page-link" href="./list?page=${pagination.page - 1}" aria-label="Previous">
+						      				<a class="page-link" href="./noticeList?page=${pagination.page - 1}" aria-label="Previous">
 						        				<span aria-hidden="true">&lsaquo;</span>
 						      				</a>
 						    			</li>
 						    		</c:if>
 						    
 						    		<c:forEach begin="${pagination.startNum}" end="${pagination.endNum}" var="i">
-							    		<li class="page-item"><a class="page-link" href="./list?page=${i}&kind=${pagination.kind}&search=${pagination.search}">${i}</a></li>
+							    		<li class="page-item"><a class="page-link" href="./noticeList?page=${i}&kind=${pagination.kind}&search=${pagination.search}">${i}</a></li>
 									</c:forEach> 
 						    
 						    		<c:if test="${pagination.page != pagination.totalPage }">
 						    			<li class="page-item">
-						      				<a class="page-link" href="./list?page=${pagination.page + 1}" aria-label="Next">
+						      				<a class="page-link" href="./noticeList?page=${pagination.page + 1}" aria-label="Next">
 						        				<span aria-hidden="true">&rsaquo;</span>
 						      				</a>
 						    			</li>
 						   			</c:if>
 						    		<c:if test="${pagination.after == false }">
 						    			<li class="page-item">
-						      				<a class="page-link" href="./list?page=${pagination.totalPage}&kind=${pagination.kind}&search=${pagination.search}" aria-label="Next">
+						      				<a class="page-link" href="./noticeList?page=${pagination.totalPage}&kind=${pagination.kind}&search=${pagination.search}" aria-label="Next">
 						        				<span aria-hidden="true">&raquo;</span>
 						      				</a>
 						    			</li>
@@ -79,9 +79,28 @@
 					</nav>
 				</div>
 			</div>
-			<div class="mb-3">
-				<a href="/writing/insert" class="btn btn-primary float-end">글 쓰기</a>
+			<div class="row">
+				<form class="row col-10" action="./noticeList" method="get">
+					<div class="col-auto my-auto ms-0">
+				  		<label for="kind" class="visually-hidden">Kind</label>
+				    	<select class="form-select" name="kind" id="kind" aria-label="Default select example">
+							<option value="title">공지 제목</option>
+						  	<option value="contents">공지 내용</option>
+						</select>
+				  	</div>
+				  	<div class="col-auto my-auto ms-0">
+				    	<label for="search" class="visually-hidden">Search</label>
+				    	<input type="text" class="form-control" name="search" id="search" placeholder="inputText">
+				  	</div>
+				  	<div class="col-auto my-auto ms-0">
+				    	<button type="submit" class="btn btn-primary">검색</button>
+				  	</div>
+				</form>
+				<div class="col-2">
+					<a href="/writing/noticeInsert" class="btn btn-primary float-end">공지사항 작성</a>
+				</div>
 			</div>
+			
 		</div>
 	</div>
 	<c:import url="../template/common_js.jsp"></c:import>

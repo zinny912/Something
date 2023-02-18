@@ -8,7 +8,9 @@
   	
   	<typeAliases>
   		<typeAlias type="com.home.st1.writing.WritingDTO" alias="writingDTO"/>
-  	
+  		<typeAlias type="com.home.st1.writing.WritingImgDTO" alias="writingImgDTO"/>
+  		<typeAlias type="java.lang.Long" alias="Long"/>
+  		<typeAlias type="com.home.st1.util.Pagination" alias="pagination"/>
   	</typeAliases>
   	
   	

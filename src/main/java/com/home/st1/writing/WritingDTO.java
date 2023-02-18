@@ -1,15 +1,23 @@
 package com.home.st1.writing;
 
+import java.sql.Date;
+
 public class WritingDTO {
 	private Long writingId;
 	private String id;
 	private Long typeId;
 	private String writingTitle;
-	private String date;
+	private Date writingDate;
 	private Long writingView;
 	private String writingDetail;
+	private WritingImgDTO writingImgDTO;
 	
-	
+	public WritingImgDTO getWritingImgDTO() {
+		return writingImgDTO;
+	}
+	public void setWritingImgDTO(WritingImgDTO writingImgDTO) {
+		this.writingImgDTO = writingImgDTO;
+	}
 	public Long getWritingId() {
 		return writingId;
 	}
@@ -34,11 +42,13 @@ public class WritingDTO {
 	public void setWritingTitle(String writingTitle) {
 		this.writingTitle = writingTitle;
 	}
-	public String getDate() {
-		return date;
+	
+	
+	public Date getWritingDate() {
+		return writingDate;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setWritingDate(Date writingDate) {
+		this.writingDate = writingDate;
 	}
 	public Long getWritingView() {
 		return writingView;

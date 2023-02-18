@@ -4,17 +4,101 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
  <mapper namespace = "com.home.st1.writing.WritingDAO">
- 	<select id="getWritingList" resultType="writingDTO">
- 		SELECT * FROM WRITING
- 		ORDER BY WRITINGID DESC
+ 	
+ 	<sql id="searchCondition">
+ 		WHERE
+ 		<choose>
+			<when test="kind == 'contents'">
+				WRITINGDETAIL 
+			</when>
+			<otherwise>
+				WRITINGTITLE 
+			</otherwise>
+		</choose>
+		LIKE '%' || #{search} || '%'
+ 	</sql>
+ 	
+ 	<select id="getWritingList" parameterType="Pagination" resultType="writingDTO">
+ 		SELECT * FROM 
+		(
+			SELECT ROWNUM R, W.* FROM
+				(
+					SELECT * FROM WRITING
+					
+					 
+					<include refid="searchCondition"></include>
+					
+				 	AND TYPEID = 2
+					ORDER BY WRITINGID DESC
+				) W
+		) 
+		WHERE R BETWEEN #{startRow} AND #{endRow}
  	</select>
  	
- 	<select id="getWritingDetail" parameterType="writingDTO" resultType="writingDTO">
- 		SELECT * FROM WRITING WHERE WRITINGID = #{writingId}
+ 	<select id="getNoticeList" parameterType="Pagination" resultType="writingDTO">
+ 		SELECT * FROM 
+		(
+			SELECT ROWNUM R, W.* FROM
+				(
+					SELECT * FROM WRITING
+					
+					 
+					<include refid="searchCondition"></include>
+					
+				 	AND TYPEID = 1
+					ORDER BY WRITINGID DESC
+				) W
+		) 
+		WHERE R BETWEEN #{startRow} AND #{endRow}
+ 	</select>
+ 	
+ 	<select id="getWritingDetail" parameterType="writingDTO" resultMap="writingDetail">
+ 		SELECT * FROM WRITING W
+		LEFT OUTER JOIN WRITINGIMG WI
+		ON (W.WRITINGID = WI.WRITINGID)
+		WHERE W.WRITINGID = #{writingId}
+ 	</select>
+ 	
+ 	<resultMap type="writingDTO" id="writingDetail">
+ 		<!-- primary key -->
+ 		<id column="WRITINGID" property="writingId" ></id>
+ 		<result column="ID" property="id"/>
+ 		<result column="TYPEID" property="typeId"/>
+ 		<result column="WRITINGTITLE" property="writingTitle"/>
+ 		<result column="WRITINGDATE" property="writingDate"/>
+ 		<result column="WRITINGVIEW" property="writingView"/>
+ 		<result column="WRITINGDETAIL" property="writingDetail"/>
+ 		
+ 		<!-- 1:1 -->
+ 		<association property="writingImgDTO" javaType="WritingImgDTO">
+ 			<id column="FILENUM" property="fileNum"></id>
+ 			<result column="WRITINGID" property="writingId"/>
+ 			<result column="FILENAME" property="fileName"/>
+ 			<result column="ORINAME" property="oriName"/>
+ 		</association>
+ 	</resultMap>
+
+ 	<select id="getWritingCount" parameterType="pagination" resultType="Long">
+ 		SELECT COUNT(WRITINGID)FROM WRITING
+ 		<include refid="searchCondition"></include>
+ 		AND TYPEID = 2
+ 	</select>
+ 	
+ 	<select id="getNoticeCount" parameterType="pagination" resultType="Long">
+ 		SELECT COUNT(WRITINGID)FROM WRITING
+ 		<include refid="searchCondition"></include>
+ 		AND TYPEID = 1
  	</select>
  	
  	<insert id="setWritingInsert" parameterType="writingDTO">
- 		INSERT INTO WRITING VALUES(WRITING_SEQ.NEXTVAL, #{id}, #{typeId}, #{writingTitle}, sysdate, 0, #{writingDetail})
+ 		<selectKey keyProperty="writingId" resultType="Long" order="BEFORE">
+ 			SELECT WRITING_SEQ.NEXTVAL FROM DUAL
+ 		</selectKey>
+ 		INSERT INTO WRITING VALUES(#{writingId}, #{id}, #{typeId}, #{writingTitle}, sysdate, 0, #{writingDetail})
+ 	</insert>
+ 	
+ 	<insert id="setWritingImgInsert" parameterType="writingImgDTO">
+ 		INSERT INTO WRITINGIMG VALUES(WRITINGIMG_SEQ.NEXTVAL, #{writingId}, #{fileName}, #{oriName})
  	</insert>
  	
  	<update id="setWritingUpdate" parameterType="writingDTO">

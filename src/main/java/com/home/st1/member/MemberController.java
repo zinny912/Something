@@ -68,6 +68,7 @@ public class MemberController {
 		mv.setViewName("redirect:../");
 		return mv;
 	}
+	
 	//정보수정
 	@RequestMapping(value = "memberUpdate", method = RequestMethod.GET)
 	public ModelAndView setMemberUpdate(HttpSession session) throws Exception{
